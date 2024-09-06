@@ -1,6 +1,8 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  updateCurrentUser,
 } from "firebase/auth";
 import { auth, db } from "./Firebase";
 import { toastErr } from "../utils/toast";
@@ -14,7 +16,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { defaultUser, setUser } from "../Redux/userSlice";
+import { defaultUser, setUser, userStorageName } from "../Redux/userSlice";
 import { AppDispatch } from "../Redux/store";
 import ConvertTime from "../utils/ConvertTime";
 import AvatarGenerator from "../utils/avatarGenerator";
@@ -68,8 +70,7 @@ export const BE_signUp = (
   } else toastErr("Fields recquired!", setLoading);
 };
 
-// LOGIN
-
+//  sign in a user
 export const BE_sigin = (
   data: authDataType,
   setLoading: setLoadingType,
@@ -100,6 +101,40 @@ export const BE_sigin = (
       catchErr(err);
       setLoading(false);
     });
+};
+
+// signout
+export const BE_SignOut = (
+  dispatch: AppDispatch,
+  goTo: NavigateFunction,
+  setloading: setLoadingType
+) => {
+  setloading(true);
+  // logout in firebase
+  signOut(auth)
+    .then(async () => {
+      // route to auth page
+      goTo("/auth");
+
+      // set user offline
+      await updateUserInfo({ isOffline: true });
+
+      // set currentSelected user to empty
+      dispatch(setUser(defaultUser));
+
+      // remove from local storage
+      localStorage.removeItem(userStorageName);
+
+      setloading(false);
+    })
+    .catch((err) => catchErr(err));
+};
+
+// get user from local storage
+export const getStorageUser = () => {
+  const usr = localStorage.getItem(userStorageName);
+  if (usr) return JSON.parse(usr);
+  else return null;
 };
 
 // Add user to collection
@@ -179,10 +214,4 @@ const updateUserInfo = async ({
       lastseen: serverTimestamp(),
     });
   }
-};
-
-const getStorageUser = () => {
-  const usr = localStorage.getItem("superhero_user");
-  if (usr) return JSON.parse(usr);
-  else return null;
 };

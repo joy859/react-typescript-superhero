@@ -1,6 +1,8 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { userType } from "../Types";
 
+export const userStorageName = "superhero_user";
+
 export const defaultUser: userType = {
   id: "",
   username: "",
