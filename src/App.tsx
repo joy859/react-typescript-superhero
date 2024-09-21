@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import ListPage from "./Pages/ListPage";
-import ProfilePage from "./Pages/ProfilePage";
 import ChatPage from "./Pages/ChatPage";
+import ProfilePage from "./Pages/ProfilePage";
 import Layout from "./Pages/Layout";
 
 function App() {

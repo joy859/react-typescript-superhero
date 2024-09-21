@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Input from "./input";
 import Button from "./Button";
-import { BE_sigin, BE_signUp, getStorageUser } from "../Backend/Queries";
-import { useNavigate } from "react-router-dom";
+import { BE_signIn, BE_signUp, getStorageUser } from "../Backend/Queries";
+import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../Redux/store";
 import { authDataType } from "../Types";
@@ -32,7 +32,7 @@ const Login = () => {
   };
   const handleSignin = () => {
     const data = { email, password };
-    auth(data, BE_sigin, setSignInLoading);
+    auth(data, BE_signIn, setSignInLoading);
   };
 
   const auth = (
@@ -50,7 +50,7 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full  md:w-[450px]">
+    <div className="w-full md:w-[450px]">
       <h1 className="text-white text-center font-bold text-4xl md:text-6xl mb-10">
         {login ? "Login" : "Register"}
       </h1>

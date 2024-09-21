@@ -1,6 +1,6 @@
-import { toastErr } from "./toast";
+import { toastErr, toastInfo } from "./toast";
 
-const catchErr = (err: { code?: string }) => {
+const CatchErr = (err: { code?: string }) => {
   const { code } = err;
   if (code === "auth/invalid-email") toastErr("invalid email");
   else if (code === "auth/weak-password")
@@ -10,12 +10,14 @@ const catchErr = (err: { code?: string }) => {
     toastErr("email already exists");
   else if (code === "auth/wrong-password") toastErr("wrong password");
   else if (code === "auth/requires-recent-login")
-    toastErr("logout and login before updating your profile");
+    toastInfo("logout and login before updating your profile");
   else if (code === "unavailable") toastErr("firebase client is offline");
   else if (code === "auth/invalid-login-credentials")
-    toastErr("invalid Credentials");
+    toastErr("invalid credentials");
+  else if (code === "auth/operation-not-allowed")
+    toastErr("Can't change email now!");
   else toastErr("An error occured!");
   console.log(err, err.code);
 };
 
-export default catchErr;
+export default CatchErr;

@@ -13,7 +13,6 @@ export const toastWarn = (msg: string, setLoading?: setLoadingType) => {
   toast.warn(msg);
   if (setLoading) setLoading(false);
 };
-
 export const toastInfo = (msg: string, setLoading?: setLoadingType) => {
   toast.info(msg);
   if (setLoading) setLoading(false);
